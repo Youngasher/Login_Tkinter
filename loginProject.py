@@ -4,6 +4,10 @@ from PIL import Image, ImageTk
 from tkinter import messagebox
 
 
+# Initialize login_screen to None at the global scope
+login_screen = None
+register_screen = None
+
 def main_account_screen():
     global main_screen
     main_screen = tk.Tk()
@@ -42,6 +46,7 @@ def main_account_screen():
 
     main_screen.mainloop()
 
+    
 def ready_gif(label, login_frame):  
     print('Started')
     gif_file = Image.open('giphy1.gif')
@@ -66,11 +71,15 @@ def play_gif(label, frames, delay, login_frame, count=-1):
     main_screen.after(delay, play_gif, label, frames, delay, login_frame, count)
 
 
-# Rest of your code for login and registration...
-
-
 def register():
     global register_screen
+    # Check if register_screen already exists and close it
+    if register_screen is not None:
+        register_screen.destroy()
+
+    if login_screen is not None:
+        login_screen.destroy()
+
     register_screen = Toplevel(main_screen, pady=100 ,bg="#000000")
     register_screen.title("Register")
     register_screen.geometry("600x500")
@@ -132,7 +141,17 @@ def register_user():
 
 def login():
     global login_screen
+    # Check if login_screen already exists and close it
+    if login_screen is not None:
+        login_screen.destroy()
+
+    # Check if register_screen already exists and close it
+    if register_screen is not None:
+        register_screen.destroy()        
+
+
     login_screen = Toplevel(main_screen, pady=100 ,bg="#F9A01B")
+
     login_screen.title("Login")
     login_screen.geometry("600x500")
 

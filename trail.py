@@ -16,7 +16,7 @@ def main_account_screen():
     Label(login_frame, text="").pack()
 
     Button(login_frame, text="Login", height="2", width="30", command=login, bg="lightblue").pack()
-    Label(login_frame, text="").pack() 
+    Label(login_frame, text="").pack()
 
     Button(login_frame, text="Register", height="2", width="30", command=register, bg="lightblue").pack()
 
@@ -52,26 +52,14 @@ def play_gif(label, frames, delay, login_frame, count=-1):
     label.image = current_frame
     main_screen.after(delay, play_gif, label, frames, delay, login_frame, count)
 
-# Rest of your code for login and registration...
-
-
-
-
-
-
-
-
-
-
-# Rest of your code for login and registration...
-
-
-
-# Rest of your code for login and registration...
-
 
 def register():
     global register_screen
+    # Check if register_screen already exists and close it
+    if register_screen is not None:
+        register_screen.destroy()
+    
+    # Create a new register window
     register_screen = Toplevel(main_screen)
     register_screen.title("Register")
     register_screen.geometry("300x250")
@@ -98,6 +86,12 @@ def register():
     Label(register_screen, text="").pack()
     Button(register_screen, text="Register", width=10, height=1, bg="#8870B9", command=register_user).pack()
 
+    # Ensure to set register_screen to None when the register_screen is closed
+    register_screen.protocol("WM_DELETE_WINDOW", lambda: setattr(register_screen, "register_screen", None))
+
+
+
+
 def register_user():
     username_info = username.get()
     password_info = password.get()
@@ -120,6 +114,11 @@ def register_user():
 
 def login():
     global login_screen
+    # Check if login_screen already exists and close it
+    if login_screen is not None:
+        login_screen.destroy()
+
+    # Create a new login window
     login_screen = Toplevel(main_screen)
     login_screen.title("Login")
     login_screen.geometry("300x250")
