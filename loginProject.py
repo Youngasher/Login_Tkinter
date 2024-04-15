@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import *
 from PIL import Image, ImageTk
 
+# Initialize login_screen to None at the global scope
+login_screen = None
+
 def main_account_screen():
     global main_screen
     main_screen = tk.Tk()
@@ -10,7 +13,7 @@ def main_account_screen():
 
     # Create the login and registration section
     login_frame = tk.Frame(main_screen)
-    login_frame.pack(side=RIGHT, fill=BOTH, expand=True)
+    login_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
     Label(login_frame, text="Choose Login Or Register", bg="#858886", width="30", height="2", font=("Aptos", 13)).pack()
     Label(login_frame, text="").pack()
@@ -22,13 +25,14 @@ def main_account_screen():
 
     # Create the gif display section
     gif_frame = tk.Frame(main_screen)
-    gif_frame.pack(side=LEFT, fill=BOTH, expand=True)
+    gif_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
     gif_lb = tk.Label(gif_frame)
-    gif_lb.pack(fill=BOTH, expand=True)
+    gif_lb.pack(fill=tk.BOTH, expand=True)
     ready_gif(gif_lb, login_frame)  
 
     main_screen.mainloop()
 
+    
 def ready_gif(label, login_frame):  
     print('Started')
     gif_file = Image.open('giphy.gif')
@@ -120,6 +124,11 @@ def register_user():
 
 def login():
     global login_screen
+
+    # Check if login_screen already exists and close it
+    if login_screen is not None:
+        login_screen.destroy()
+
     login_screen = Toplevel(main_screen)
     login_screen.title("Login")
     login_screen.geometry("300x250")
