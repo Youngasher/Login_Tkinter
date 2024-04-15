@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import *
 from PIL import Image, ImageTk
+from tkinter import messagebox
+
 
 def main_account_screen():
     global main_screen
@@ -95,24 +97,37 @@ def register():
     Label(register_screen, text="", bg="#000000").pack()
     Button(register_screen, text="Register", width=10, height=1, bg="#F9A01B", command=register_user).pack()
 
+
 def register_user():
+    # Get username and password from entry fields
     username_info = username.get()
     password_info = password.get()
 
-    file = open("credentials.txt", "a")
-    file.write(username_info + "\n")
-    file.write(password_info + "\n")
-    file.close()
+    # Check if both username and password fields are not empty
+    if username_info and password_info:
+        # Open the credentials file
+        with open("credentials.txt", "r") as file:
+            # Read all lines from the file
+            credentials = file.read().splitlines()
 
-    username_entry.delete(0, END)
-    password_entry.delete(0, END)
+        # Check if the username already exists
+        if username_info in credentials:
+            messagebox.showerror("Error", "Username already exists. Please choose a different one.")
+        else:
+            # Append the new username and password to the file
+            with open("credentials.txt", "a") as file:
+                file.write(username_info + "\n")
+                file.write(password_info + "\n")
 
-    Label(register_screen, text="Registration Success", fg="green", font=("calibri", 11)).pack()
+            # Clear entry fields
+            username_entry.delete(0, END)
+            password_entry.delete(0, END)
 
-    # Print the contents of the file for debugging
-    with open("credentials.txt", "r") as f:
-        print("Contents of credentials.txt:")
-        print(f.read())
+            # Inform the user about successful registration
+            messagebox.showinfo("Success", "Registration successful.")
+    else:
+        # Show a message indicating that both fields are required
+        messagebox.showerror("Error", "Please enter both username and password.")
 
 
 def login():
@@ -147,22 +162,28 @@ def login_verification():
     username1 = username_verify.get()
     password1 = password_verify.get()
 
-    # Open the credentials file
-    with open("credentials.txt", "r") as file1:
-        # Read all lines from the file
-        verify = file1.read().splitlines()
+    # Check if both username and password fields are not empty
+    if username1 and password1:
+        # Open the credentials file
+        with open("credentials.txt", "r") as file1:
+            # Read all lines from the file
+            verify = file1.read().splitlines()
 
-    # Check if username exists in the list of usernames
-    if username1 in verify:
-        # Find the index of the username in the list
-        index = verify.index(username1)
-        # Check if the password matches the password stored in the next line
-        if password1 == verify[index + 1]:
-            login_sucess()
+        # Check if username exists in the list of usernames
+        if username1 in verify:
+            # Find the index of the username in the list
+            index = verify.index(username1)
+            # Check if the password matches the password stored in the next line
+            if password1 == verify[index + 1]:
+                login_sucess()
+            else:
+                password_not_recognised()
         else:
-            password_not_recognised()
+            user_not_found()
     else:
-        user_not_found()
+        # Show a message indicating that both fields are required
+        messagebox.showerror("Error", "Please enter both username and password.")
+
 
 def login_sucess():
     global login_success_screen
