@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import *
 from PIL import Image, ImageTk
 
+# Initialize login_screen to None at the global scope
+login_screen = None
+
 def main_account_screen():
     global main_screen
     main_screen = tk.Tk()
@@ -40,6 +43,7 @@ def main_account_screen():
 
     main_screen.mainloop()
 
+    
 def ready_gif(label, login_frame):  
     print('Started')
     gif_file = Image.open('giphy1.gif')
@@ -118,6 +122,7 @@ def register_user():
 def login():
     global login_screen
     login_screen = Toplevel(main_screen, pady=100 ,bg="#F9A01B")
+
     login_screen.title("Login")
     login_screen.geometry("600x500")
 
